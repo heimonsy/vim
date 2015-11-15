@@ -7,6 +7,7 @@ noremap 0 ^
 nmap <silent> <leader>v :e ~/.vimrc<cr>
 nmap <silent> <leader>s :source ~/.vimrc<cr>
 nmap <silent> <leader>p :setlocal paste!<cr>
+nmap <silent> <leader>b :TagbarToggle<cr>
 nmap <leader>g :vimgrep // **/*<left><left><left><left><left><left>
 nmap <right> :bn!<cr>
 nmap <left> :bp!<cr>
@@ -80,7 +81,7 @@ let b:AutoCloseSelectionWrapPrefix = '<leader>a'
 let g:AutoClosePairs = "() {} \" ' [] `"
 
 " git状态侧边栏
-"Bundle 'airblade/vim-gitgutter'
+Bundle 'airblade/vim-gitgutter'
 let g:gitgutter_highlight_lines = 0
 let g:gitgutter_escape_grep = 1
 let g:gitgutter_eager = 1
@@ -111,7 +112,7 @@ Bundle 'kien/ctrlp.vim'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_by_filename = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|build$',
+    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|build$\|target$\|node_modules$\|fonts$\|pkg$',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.DS_Store$\|\.pyc$' }
 nnoremap <leader>o :CtrlPBuffer<CR>
 
@@ -140,7 +141,7 @@ let g:syntastic_php_checkers=['php', 'phpcs']
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_c_checkers=[]
 let g:syntastic_cpp_checkers=[]
-let g:syntastic_go_checkers=[]
+let g:syntastic_go_checkers=["gofmt"]
 
 " git工具
 Bundle 'tpope/vim-fugitive'
@@ -180,6 +181,7 @@ Bundle 'myhere/vim-nodejs-complete'
 
 " go语言工具
 Bundle 'fatih/vim-go'
+let g:go_autodetect_gopath = 1
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -187,16 +189,27 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_fail_silently = 1
+"let g:go_fmt_autosave = 0
 au Filetype go nmap gv <Plug>(go-def-vertical)
 au Filetype go nmap gs <Plug>(go-def-split)
 au Filetype go nmap gt <Plug>(go-def-tab)
+"au Filetype go nmap <C-]> <Plug>(go-def-tab)
 au Filetype go nmap <C-]> <Plug>(go-def)
+au Filetype go nmap <C-T> <C-o>
 
 " 编译工具
 Bundle 'xuhdev/SingleCompile'
 
+"Bundle 'ervandew/supertab'
+
 " 代码补全
 Bundle 'Valloric/YouCompleteMe'
+
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"let g:SuperTabDefaultCompletionType = '<C-n>'
+
+
 
 " 各种代码高亮/缩进工具
 Bundle 'Glench/Vim-Jinja2-Syntax'
@@ -217,6 +230,11 @@ Bundle 'othree/javascript-libraries-syntax.vim'
 
 Bundle 'pangloss/vim-javascript'
 
+Bundle 'mxw/vim-jsx'
+let g:jsx_ext_required = 0
+autocmd BufNewFile,BufRead *.jsx let b:jsx_ext_found = 1
+autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+
 Bundle 'saltstack/salt-vim'
 
 Bundle 'dag/vim-fish'
@@ -226,6 +244,18 @@ Bundle 'chase/vim-ansible-yaml'
 Bundle 'ryanss/vim-hackernews'
 
 Bundle 'nsf/gocode'
+
+
+Bundle 'guns/vim-clojure-static'
+
+Bundle 'tpope/vim-salve'
+
+Bundle 'tpope/vim-fireplace'
+
+
+au Filetype clojure nmap <leader>ee :Eval<CR>
+au Filetype clojure nmap <leader>ld :Require<CR>
+
 " }}}
 
 " 环境变量 {{{
@@ -317,6 +347,7 @@ set softtabstop=4
 autocmd FileType python set cc=80
 autocmd FileType php set cc=120
 autocmd FileType cpp set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript set shiftwidth=2 tabstop=2 softtabstop=2
 
 autocmd BufRead,BufNewFile *.thrift set filetype=thrift
 autocmd BufRead,BufNewFile *.pp set filetype=puppet
@@ -434,3 +465,7 @@ if filereadable(expand("~/.vimrc_local"))
     source ~/.vimrc_local
 endif
 " }}}
+"
+
+
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
