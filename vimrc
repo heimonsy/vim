@@ -107,6 +107,24 @@ nnoremap <silent> <leader>t :Tabularize /
 " Python代码风格
 Bundle 'hynek/vim-python-pep8-indent'
 
+
+" Bundle 'python-rope/ropevim'
+
+" Python mode
+"Bundle 'klen/python-mode'
+"let g:pymode_rope = 0
+"let g:pymode_syntax = 1
+"let g:pymode_syntax_all = 1
+"let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+"let g:pymode_syntax_space_errors = g:pymode_syntax_all
+"let g:pymode_folding = 0
+
+"Bundle "jmcantrell/vim-virtualenv"
+
+"
+" Bundle "davidhalter/jedi-vim"
+
+
 " 查找文件工具
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_working_path_mode = 'rc'
@@ -142,6 +160,7 @@ let g:syntastic_python_checkers=['flake8']
 let g:syntastic_c_checkers=[]
 let g:syntastic_cpp_checkers=[]
 let g:syntastic_go_checkers=["gofmt"]
+
 
 " git工具
 Bundle 'tpope/vim-fugitive'
@@ -204,6 +223,11 @@ Bundle 'xuhdev/SingleCompile'
 
 " 代码补全
 Bundle 'Valloric/YouCompleteMe'
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_confirm_extra_conf=0
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+au Filetype python nmap <C-]> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+au Filetype python nmap <C-T> <C-o>
 
 "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -252,6 +276,9 @@ Bundle 'tpope/vim-salve'
 
 Bundle 'tpope/vim-fireplace'
 
+call plug#begin('~/.vim/plugged')
+Plug 'keith/swift.vim'
+call plug#end()
 
 au Filetype clojure nmap <leader>ee :Eval<CR>
 au Filetype clojure nmap <leader>ld :Require<CR>
@@ -348,6 +375,7 @@ autocmd FileType python set cc=80
 autocmd FileType php set cc=120
 autocmd FileType cpp set shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType javascript set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript.jsx set shiftwidth=2 tabstop=2 softtabstop=2
 
 autocmd BufRead,BufNewFile *.thrift set filetype=thrift
 autocmd BufRead,BufNewFile *.pp set filetype=puppet
@@ -469,3 +497,14 @@ endif
 
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+"python with virtualenv support
+
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+  "project_base_dir = os.environ['VIRTUAL_ENV']
+  "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  "execfile(activate_this, dict(__file__=activate_this))
+"EOF
