@@ -213,8 +213,8 @@ au Filetype go nmap gv <Plug>(go-def-vertical)
 au Filetype go nmap gs <Plug>(go-def-split)
 au Filetype go nmap gt <Plug>(go-def-tab)
 "au Filetype go nmap <C-]> <Plug>(go-def-tab)
-au Filetype go nmap <C-]> <Plug>(go-def)
-au Filetype go nmap <C-T> <C-o>
+"au Filetype go nmap <C-]> <Plug>(go-def)
+"au Filetype go nmap <C-T> <C-o>
 
 " 编译工具
 Bundle 'xuhdev/SingleCompile'
@@ -276,8 +276,12 @@ Bundle 'tpope/vim-salve'
 
 Bundle 'tpope/vim-fireplace'
 
+Bundle 'briancollins/vim-jst'
 call plug#begin('~/.vim/plugged')
 Plug 'keith/swift.vim'
+
+
+Plug 'vim-erlang/vim-erlang-tags'
 call plug#end()
 
 au Filetype clojure nmap <leader>ee :Eval<CR>
@@ -373,9 +377,9 @@ set softtabstop=4
 " 其他配置 {{{
 autocmd FileType python set cc=80
 autocmd FileType php set cc=120
-autocmd FileType cpp set shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType javascript set shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType javascript.jsx set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType cpp set shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType javascript set shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType javascript.jsx set shiftwidth=4 tabstop=4 softtabstop=4
 
 autocmd BufRead,BufNewFile *.thrift set filetype=thrift
 autocmd BufRead,BufNewFile *.pp set filetype=puppet
