@@ -31,6 +31,7 @@ cmap cd. lcd %:p:h
 cmap w!! w !sudo tee % >/dev/null
 
 inoremap jk <Esc>
+inoremap qq <Esc>
 inoremap <C-@> <C-X><C-O>
 " }}}
 
@@ -64,6 +65,8 @@ let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsSnippetsDir = "ultisnips"
 let g:UltiSnipsSnippetDirectories  = ["ultisnips", "local_snippets"]
 
+"Bundle 'garbas/vim-snipmate'
+
 " php代码风格修正工具
 Bundle 'stephpy/vim-php-cs-fixer'
 let g:php_cs_fixer_level = "all"
@@ -76,29 +79,37 @@ let g:php_cs_fixer_verbose = 0
 nnoremap <silent> <leader>f :call PhpCsFixerFixFile()<CR> :e <CR>
 
 " 括号补全
-Bundle 'Townk/vim-autoclose'
-let b:AutoCloseSelectionWrapPrefix = '<leader>a'
-let g:AutoClosePairs = "() {} \" ' [] `"
+"Bundle 'Townk/vim-autoclose'
+"let b:AutoCloseSelectionWrapPrefix = '<leader>a'
+"let g:AutoClosePairs = "() {} \" ' [] `"
+
+Bundle "jiangmiao/auto-pairs"
 
 " git状态侧边栏
-Bundle 'airblade/vim-gitgutter'
-let g:gitgutter_highlight_lines = 0
-let g:gitgutter_escape_grep = 1
-let g:gitgutter_eager = 1
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = '~~'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_modified_removed = '~-'
+"Bundle 'airblade/vim-gitgutter'
+"let g:gitgutter_highlight_lines = 0
+"let g:gitgutter_escape_grep = 1
+"let g:gitgutter_eager = 1
+"let g:gitgutter_sign_added = '++'
+"let g:gitgutter_sign_modified = '~~'
+"let g:gitgutter_sign_removed = '--'
+"let g:gitgutter_sign_modified_removed = '~-'
+
+Bundle 'mhinz/vim-signify'
 
 " solarized配色
 Bundle 'altercation/vim-colors-solarized'
+
 try
-    color solarized
+    "color solarized
+    color molokai
 catch
     color desert
 endtry
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
+
+"let g:molokai_original=1
 
 " 自动对齐工具
 Bundle 'godlygeek/tabular'
@@ -159,7 +170,9 @@ let g:syntastic_php_checkers=['php', 'phpcs']
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_c_checkers=[]
 let g:syntastic_cpp_checkers=[]
-let g:syntastic_go_checkers=["gofmt"]
+"let g:syntastic_go_checkers=["gofmt"]
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 
 " git工具
@@ -215,6 +228,7 @@ au Filetype go nmap gt <Plug>(go-def-tab)
 "au Filetype go nmap <C-]> <Plug>(go-def-tab)
 "au Filetype go nmap <C-]> <Plug>(go-def)
 "au Filetype go nmap <C-T> <C-o>
+nmap <silent> <leader>ce :GoErrCheck<cr>
 
 " 编译工具
 Bundle 'xuhdev/SingleCompile'
@@ -246,15 +260,20 @@ Bundle 'vim-scripts/nginx.vim'
 
 Bundle 'othree/html5.vim'
 
-Bundle 'sprsquish/thrift.vim'
+"Bundle 'sprsquish/thrift.vim'
 
 Bundle 'cstrahan/vim-capnp'
 
 Bundle 'othree/javascript-libraries-syntax.vim'
 
-Bundle 'pangloss/vim-javascript'
+"Bundle 'pangloss/vim-javascript'
 
-Bundle 'mxw/vim-jsx'
+Bundle 'isRuslan/vim-es6'
+
+"Bundle 'othree/yajs.vim'
+
+"Bundle 'mxw/vim-jsx'
+
 let g:jsx_ext_required = 0
 autocmd BufNewFile,BufRead *.jsx let b:jsx_ext_found = 1
 autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
@@ -267,14 +286,16 @@ Bundle 'chase/vim-ansible-yaml'
 
 Bundle 'ryanss/vim-hackernews'
 
-Bundle 'nsf/gocode'
+"Bundle 'nsf/gocode'
 
 
-Bundle 'guns/vim-clojure-static'
+" ruby
 
-Bundle 'tpope/vim-salve'
 
-Bundle 'tpope/vim-fireplace'
+" clojure
+"Bundle 'guns/vim-clojure-static'
+"Bundle 'tpope/vim-salve'
+"Bundle 'tpope/vim-fireplace'
 
 Bundle 'briancollins/vim-jst'
 call plug#begin('~/.vim/plugged')
@@ -512,3 +533,21 @@ let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
   "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   "execfile(activate_this, dict(__file__=activate_this))
 "EOF
+
+set relativenumber
+
+let g:rehash256 = 1
+
+hi Normal ctermfg=250 ctermbg=black
+hi SpecialKey ctermfg=241 ctermbg=234
+
+"hi Visual guifg=#000000 guibg=#FFFFFF gui=none
+hi Visual ctermbg=242
+
+hi SpellBad ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+hi SpellCap ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+
+"hi SyntasticErrorLine ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+"hi SyntasticWarningLine ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+"hi SyntasticErrorSign ctermfg=091 ctermbg=000 guifg=#d70000 guibg=#000000
+"hi SyntasticErrorSign ctermfg=091 ctermbg=000 guifg=#d70000 guibg=#000000
