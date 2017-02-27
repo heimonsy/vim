@@ -58,14 +58,13 @@ let g:airline_right_sep=''
 
 " 代码片段管理
 Bundle 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger       = "<tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+Bundle "'honza/vim-snippets"
+let g:UltiSnipsExpandTrigger="<c-e>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsSnippetsDir = "ultisnips"
 let g:UltiSnipsSnippetDirectories  = ["ultisnips", "local_snippets"]
-
-"Bundle 'garbas/vim-snipmate'
 
 " php代码风格修正工具
 Bundle 'stephpy/vim-php-cs-fixer'
@@ -237,6 +236,8 @@ Bundle 'xuhdev/SingleCompile'
 
 " 代码补全
 Bundle 'Valloric/YouCompleteMe'
+"let g:ycm_key_list_select_completion = ['<c-n>', "<Down>"]
+"let g:ycm_key_list_previous_completion = ['<c-p>', "<Up>"]
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_confirm_extra_conf=0
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
