@@ -7,6 +7,7 @@ noremap 0 ^
 nmap <silent> <leader>v :e ~/.vimrc<cr>
 nmap <silent> <leader>s :source ~/.vimrc<cr>
 nmap <silent> <leader>p :setlocal paste!<cr>
+nmap <silent> <leader>b :TagbarToggle<cr>
 nmap <leader>g :vimgrep // **/*<left><left><left><left><left><left>
 nmap <right> :bn!<cr>
 nmap <left> :bp!<cr>
@@ -30,6 +31,7 @@ cmap cd. lcd %:p:h
 cmap w!! w !sudo tee % >/dev/null
 
 inoremap jk <Esc>
+inoremap qq <Esc>
 inoremap <C-@> <C-X><C-O>
 " }}}
 
@@ -63,6 +65,8 @@ let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsSnippetsDir = "ultisnips"
 let g:UltiSnipsSnippetDirectories  = ["ultisnips", "local_snippets"]
 
+"Bundle 'garbas/vim-snipmate'
+
 " php代码风格修正工具
 Bundle 'stephpy/vim-php-cs-fixer'
 let g:php_cs_fixer_level = "all"
@@ -75,48 +79,74 @@ let g:php_cs_fixer_verbose = 0
 nnoremap <silent> <leader>f :call PhpCsFixerFixFile()<CR> :e <CR>
 
 " 括号补全
-Bundle 'Townk/vim-autoclose'
-let b:AutoCloseSelectionWrapPrefix = '<leader>a'
-let g:AutoClosePairs = "() {} \" ' [] `"
+"Bundle 'Townk/vim-autoclose'
+"let b:AutoCloseSelectionWrapPrefix = '<leader>a'
+"let g:AutoClosePairs = "() {} \" ' [] `"
+
+Bundle "jiangmiao/auto-pairs"
 
 " git状态侧边栏
 "Bundle 'airblade/vim-gitgutter'
-let g:gitgutter_highlight_lines = 0
-let g:gitgutter_escape_grep = 1
-let g:gitgutter_eager = 1
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = '~~'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_modified_removed = '~-'
+"let g:gitgutter_highlight_lines = 0
+"let g:gitgutter_escape_grep = 1
+"let g:gitgutter_eager = 1
+"let g:gitgutter_sign_added = '++'
+"let g:gitgutter_sign_modified = '~~'
+"let g:gitgutter_sign_removed = '--'
+"let g:gitgutter_sign_modified_removed = '~-'
+
+Bundle 'mhinz/vim-signify'
 
 " solarized配色
 Bundle 'altercation/vim-colors-solarized'
+
 try
-    color solarized
+    "color solarized
+    color molokai
 catch
     color desert
 endtry
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 
+"let g:molokai_original=1
+
 " 自动对齐工具
 Bundle 'godlygeek/tabular'
+nnoremap <silent> <leader>t :Tabularize /
 
 " Python代码风格
 Bundle 'hynek/vim-python-pep8-indent'
+
+
+" Bundle 'python-rope/ropevim'
+
+" Python mode
+Bundle 'klen/python-mode'
+let g:pymode_rope = 0
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+let g:pymode_folding = 0
+
+Bundle "jmcantrell/vim-virtualenv"
+
+"
+" Bundle "davidhalter/jedi-vim"
+
 
 " 查找文件工具
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_working_path_mode = 'rc'
 let g:ctrlp_by_filename = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|build$',
+    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|build$\|target$\|node_modules$\|fonts$\|pkg$',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.DS_Store$\|\.pyc$' }
 nnoremap <leader>o :CtrlPBuffer<CR>
 
 " tag列表
 Bundle 'majutsushi/tagbar'
-nnoremap <silent> <leader>t :Tagbar<CR>
 
 " html自动补全
 Bundle 'mattn/emmet-vim'
@@ -140,7 +170,10 @@ let g:syntastic_php_checkers=['php', 'phpcs']
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_c_checkers=[]
 let g:syntastic_cpp_checkers=[]
-let g:syntastic_go_checkers=[]
+"let g:syntastic_go_checkers=["gofmt"]
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
 
 " git工具
 Bundle 'tpope/vim-fugitive'
@@ -180,31 +213,42 @@ Bundle 'myhere/vim-nodejs-complete'
 
 " go语言工具
 Bundle 'fatih/vim-go'
+let g:go_autodetect_gopath = 1
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-"let g:go_gocode_bin = "/home/vagrant/Develop/go/bin/gocode"
-"let g:go_fmt_fail_silently = 1
+let g:go_fmt_fail_silently = 1
+"let g:go_fmt_autosave = 0
 au Filetype go nmap gv <Plug>(go-def-vertical)
 au Filetype go nmap gs <Plug>(go-def-split)
 au Filetype go nmap gt <Plug>(go-def-tab)
-au Filetype go nmap <C-]> <Plug>(go-def)
-
-" rust
-Bundle 'racer-rust/vim-racer'
-let g:racer_cmd = "/usr/local/bin/racer"
-let $RUST_SRC_PATH = "/home/vagrant/Develop/rust/src"
-
-Bundle 'rust-lang/rust.vim'
+"au Filetype go nmap <C-]> <Plug>(go-def-tab)
+"au Filetype go nmap <C-]> <Plug>(go-def)
+"au Filetype go nmap <C-T> <C-o>
+nmap <silent> <leader>ce :GoErrCheck<cr>
 
 " 编译工具
 Bundle 'xuhdev/SingleCompile'
 
+"Bundle 'ervandew/supertab'
+
 " 代码补全
 Bundle 'Valloric/YouCompleteMe'
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_confirm_extra_conf=0
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+au Filetype python nmap <C-]> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+au Filetype python nmap <C-T> <C-o>
+let g:ycm_python_binary_path = 'python'
+
+"let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+"let g:SuperTabDefaultCompletionType = '<C-n>'
+
+
 
 " 各种代码高亮/缩进工具
 Bundle 'Glench/Vim-Jinja2-Syntax'
@@ -217,13 +261,23 @@ Bundle 'vim-scripts/nginx.vim'
 
 Bundle 'othree/html5.vim'
 
-Bundle 'sprsquish/thrift.vim'
+"Bundle 'sprsquish/thrift.vim'
 
 Bundle 'cstrahan/vim-capnp'
 
 Bundle 'othree/javascript-libraries-syntax.vim'
 
-Bundle 'pangloss/vim-javascript'
+"Bundle 'pangloss/vim-javascript'
+
+Bundle 'isRuslan/vim-es6'
+
+"Bundle 'othree/yajs.vim'
+
+"Bundle 'mxw/vim-jsx'
+
+let g:jsx_ext_required = 0
+autocmd BufNewFile,BufRead *.jsx let b:jsx_ext_found = 1
+autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 
 Bundle 'saltstack/salt-vim'
 
@@ -233,13 +287,28 @@ Bundle 'chase/vim-ansible-yaml'
 
 Bundle 'ryanss/vim-hackernews'
 
-Bundle 'cespare/vim-toml'
+"Bundle 'nsf/gocode'
 
-"Plugin 'nsf/gocode', {'rtp': 'vim/'}
 
-Plugin 'mhinz/vim-rfc'
+" ruby
 
-Plugin 'vim-scripts/rfc-syntax', { 'for': 'rfc' }
+
+" clojure
+"Bundle 'guns/vim-clojure-static'
+"Bundle 'tpope/vim-salve'
+"Bundle 'tpope/vim-fireplace'
+
+Bundle 'briancollins/vim-jst'
+call plug#begin('~/.vim/plugged')
+Plug 'keith/swift.vim'
+
+
+Plug 'vim-erlang/vim-erlang-tags'
+call plug#end()
+
+au Filetype clojure nmap <leader>ee :Eval<CR>
+au Filetype clojure nmap <leader>ld :Require<CR>
+
 " }}}
 
 " 环境变量 {{{
@@ -328,23 +397,19 @@ set softtabstop=4
 " }}}
 
 " 其他配置 {{{
-autocmd FileType python set cc=80 tags=./tags;/,/usr/local/lib/python2.7/dist-packages/tags
+autocmd FileType python set cc=80
 autocmd FileType php set cc=120
-autocmd FileType cpp set shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType yaml set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType cpp set shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType javascript set shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType javascript.jsx set shiftwidth=4 tabstop=4 softtabstop=4
 
-autocmd BufRead,BufNewFile *.rs set filetype=rust
 autocmd BufRead,BufNewFile *.thrift set filetype=thrift
 autocmd BufRead,BufNewFile *.pp set filetype=puppet
 autocmd BufRead,BufNewFile /etc/nginx/* set filetype=nginx
 autocmd BufRead,BufNewFile */nginx.conf set filetype=nginx
 autocmd BufRead,BufNewFile /usr/local/etc/nginx/* set filetype=nginx
-autocmd BufRead,BufNewFile /usr/local/nginx/conf/* set filetype=nginx
 autocmd BufRead,BufNewFile *.twig set filetype=jinja
-autocmd BufRead,BufNewFile *.tmpl set filetype=sh
 autocmd BufRead,BufNewFile *.go set filetype=go
-autocmd BufRead,BufNewFile *.go set omnifunc=gocomplete#Complete
-autocmd BufRead,BufNewFile rfc*.txt set filetype=rfc
 
 autocmd! BufWritePost ~/.vimrc source ~/.vimrc
 autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
@@ -454,3 +519,37 @@ if filereadable(expand("~/.vimrc_local"))
     source ~/.vimrc_local
 endif
 " }}}
+"
+
+
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
+
+set relativenumber
+
+let g:rehash256 = 1
+
+hi Normal ctermfg=250 ctermbg=black
+hi SpecialKey ctermfg=241 ctermbg=234
+
+"hi Visual guifg=#000000 guibg=#FFFFFF gui=none
+hi Visual ctermbg=242
+
+hi SpellBad ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+hi SpellCap ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+
+"hi SyntasticErrorLine ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+"hi SyntasticWarningLine ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
+"hi SyntasticErrorSign ctermfg=091 ctermbg=000 guifg=#d70000 guibg=#000000
+"hi SyntasticErrorSign ctermfg=091 ctermbg=000 guifg=#d70000 guibg=#000000
+"
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
