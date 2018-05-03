@@ -58,9 +58,10 @@ let g:airline_right_sep=''
 
 " 代码片段管理
 Bundle 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger       = "<tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+Bundle "'honza/vim-snippets"
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+""let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsSnippetsDir = "ultisnips"
 let g:UltiSnipsSnippetDirectories  = ["ultisnips", "local_snippets"]
@@ -545,11 +546,17 @@ hi SpellCap ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
 "
 
 "python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
+"py << EOF
+"mport os
+"mport sys
+"f 'VIRTUAL_ENV' in os.environ:
+" project_base_dir = os.environ['VIRTUAL_ENV']
+" activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+" execfile(activate_this, dict(__file__=activate_this))
+"OF
+
+
+
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"match OverLength /\%120v.\+/
+set colorcolumn=121
