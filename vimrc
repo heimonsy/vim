@@ -121,15 +121,15 @@ Bundle 'hynek/vim-python-pep8-indent'
 " Bundle 'python-rope/ropevim'
 
 " Python mode
-"Bundle 'klen/python-mode'
-"let g:pymode_rope = 0
-"let g:pymode_syntax = 1
-"let g:pymode_syntax_all = 1
-"let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-"let g:pymode_syntax_space_errors = g:pymode_syntax_all
-"let g:pymode_folding = 0
+Bundle 'klen/python-mode'
+let g:pymode_rope = 0
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+let g:pymode_folding = 0
 
-"Bundle "jmcantrell/vim-virtualenv"
+Bundle "jmcantrell/vim-virtualenv"
 
 "
 " Bundle "davidhalter/jedi-vim"
@@ -170,7 +170,8 @@ let g:syntastic_python_checkers=['flake8']
 let g:syntastic_c_checkers=[]
 let g:syntastic_cpp_checkers=[]
 "let g:syntastic_go_checkers=["gofmt"]
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+"let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_go_checkers = []
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 
@@ -265,7 +266,7 @@ Bundle 'othree/html5.vim'
 
 Bundle 'cstrahan/vim-capnp'
 
-Bundle 'othree/javascript-libraries-syntax.vim'
+"Bundle 'othree/javascript-libraries-syntax.vim'
 
 "Bundle 'pangloss/vim-javascript'
 
@@ -299,6 +300,10 @@ Bundle 'ryanss/vim-hackernews'
 "Bundle 'tpope/vim-fireplace'
 
 Bundle 'briancollins/vim-jst'
+
+" VUE
+Bundle 'posva/vim-vue'
+
 call plug#begin('~/.vim/plugged')
 Plug 'keith/swift.vim'
 
@@ -524,16 +529,6 @@ endif
 
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
-"python with virtualenv support
-
-"py << EOF
-"import os
-"import sys
-"if 'VIRTUAL_ENV' in os.environ:
-  "project_base_dir = os.environ['VIRTUAL_ENV']
-  "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  "execfile(activate_this, dict(__file__=activate_this))
-"EOF
 
 set relativenumber
 
@@ -552,3 +547,23 @@ hi SpellCap ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
 "hi SyntasticWarningLine ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
 "hi SyntasticErrorSign ctermfg=091 ctermbg=000 guifg=#d70000 guibg=#000000
 "hi SyntasticErrorSign ctermfg=091 ctermbg=000 guifg=#d70000 guibg=#000000
+"
+"
+
+
+"python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+  "project_base_dir = os.environ['VIRTUAL_ENV']
+  "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  "execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%120v.\+/
+set colorcolumn=121
+
