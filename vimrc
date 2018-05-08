@@ -217,7 +217,7 @@ Bundle 'fatih/vim-go'
 let g:go_autodetect_gopath = 1
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
+let g:go_highlight_function_calls = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
@@ -546,17 +546,19 @@ hi SpellCap ctermfg=160 ctermbg=000 guifg=#d70000 guibg=#000000
 "
 
 "python with virtualenv support
-"py << EOF
-"mport os
-"mport sys
-"f 'VIRTUAL_ENV' in os.environ:
-" project_base_dir = os.environ['VIRTUAL_ENV']
-" activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-" execfile(activate_this, dict(__file__=activate_this))
-"OF
+py3 << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
 
 
 
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%120v.\+/
 set colorcolumn=121
+
+au FileType proto setlocal autoindent noexpandtab tabstop=4 shiftwidth=4
