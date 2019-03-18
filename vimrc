@@ -8,7 +8,9 @@ nmap <silent> <leader>v :e ~/.vimrc<cr>
 nmap <silent> <leader>s :source ~/.vimrc<cr>
 nmap <silent> <leader>p :setlocal paste!<cr>
 nmap <silent> <leader>b :TagbarToggle<cr>
-nmap <leader>g :vimgrep // **/*<left><left><left><left><left><left>
+nmap <silent> <leader>gb :Gblame<cr>
+nmap <silent> <leader>t :term fish<cr>
+nmap <leader>gp :vimgrep // **/*<left><left><left><left><left><left>
 nmap <right> :bn!<cr>
 nmap <left> :bp!<cr>
 nmap <silent> <leader>/ :nohlsearch<CR>
@@ -38,6 +40,14 @@ inoremap <C-@> <C-X><C-O>
 " 插件配置 {{{
 
 " 插件管理工具
+call plug#begin('~/.vim/plugged')
+Plug 'keith/swift.vim'
+
+Plug 'fatih/molokai'
+
+Plug 'vim-erlang/vim-erlang-tags'
+call plug#end()
+
 set runtimepath+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
@@ -49,7 +59,8 @@ let g:EasyMotion_grouping = 1
 let g:EasyMotion_do_shade = 1
 let g:EasyMotion_leader_key = '<Leader><Leader>'
 autocmd VimEnter,Colorscheme * :hi EasyMotionTarget ctermbg=none ctermfg=green
-autocmd VimEnter,Colorscheme * :hi EasyMotionShade  ctermbg=none ctermfg=black
+"autocmd VimEnter,Colorscheme * :hi EasyMotionShade  ctermbg=none ctermfg=black
+autocmd VimEnter,Colorscheme * :hi EasyMotionShade  ctermbg=none ctermfg=grey
 
 " 增强状态栏
 Bundle 'bling/vim-airline'
@@ -101,20 +112,27 @@ Bundle 'mhinz/vim-signify'
 " solarized配色
 Bundle 'altercation/vim-colors-solarized'
 
+
+"syntax enable
+"colorscheme monokai
+
 try
     "color solarized
     color molokai
+    "let g:rehash256 = 1
+    "let g:molokai_original=1
 catch
     color desert
 endtry
-let g:solarized_termcolors=256
-let g:solarized_termtrans=1
 
-"let g:molokai_original=1
+
+"let g:solarized_termcolors=256
+"let g:solarized_termtrans=1
+
 
 " 自动对齐工具
 Bundle 'godlygeek/tabular'
-nnoremap <silent> <leader>t :Tabularize /
+" #nnoremap <silent> <leader>t :Tabularize /
 
 " Python代码风格
 Bundle 'hynek/vim-python-pep8-indent'
@@ -138,12 +156,14 @@ Bundle "jmcantrell/vim-virtualenv"
 
 
 " 查找文件工具
-Bundle 'kien/ctrlp.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_working_path_mode = 'rc'
+let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_by_filename = 0
+let g:ctrlp_max_files = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|build$\|target$\|node_modules$\|fonts$\|pkg$',
-    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.DS_Store$\|\.pyc$' }
+    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|build$\|target$\|node_modules$\|fonts$\|vendor$\|assets$',
+    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.DS_Store$\|\.pyc$\|\.cov$' }
 nnoremap <leader>o :CtrlPBuffer<CR>
 
 " tag列表
@@ -186,7 +206,6 @@ Bundle 'mattn/gist-vim'
 Bundle 'mattn/webapi-vim'
 
 " 代码域选择
-Bundle 'terryma/vim-expand-region'
 map <Up> <Plug>(expand_region_expand)
 map <Down> <Plug>(expand_region_shrink)
 
@@ -212,6 +231,8 @@ noremap <leader>e :call PhpExpandClass()<CR>
 " nodejs自动补全
 Bundle 'myhere/vim-nodejs-complete'
 
+Bundle 'editorconfig/editorconfig-vim'
+
 " go语言工具
 Bundle 'fatih/vim-go'
 let g:go_autodetect_gopath = 1
@@ -222,6 +243,8 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_fail_silently = 1
+" godef, guru
+let g:go_def_mode = 'godef'
 "let g:go_fmt_autosave = 0
 au Filetype go nmap gv <Plug>(go-def-vertical)
 au Filetype go nmap gs <Plug>(go-def-split)
@@ -244,6 +267,7 @@ map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 au Filetype python nmap <C-]> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 au Filetype python nmap <C-T> <C-o>
 let g:ycm_python_binary_path = 'python'
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
 "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -275,6 +299,9 @@ Bundle 'isRuslan/vim-es6'
 "Bundle 'othree/yajs.vim'
 
 "Bundle 'mxw/vim-jsx'
+"
+
+Bundle 'posva/vim-vue'
 
 let g:jsx_ext_required = 0
 autocmd BufNewFile,BufRead *.jsx let b:jsx_ext_found = 1
@@ -300,12 +327,6 @@ Bundle 'ryanss/vim-hackernews'
 "Bundle 'tpope/vim-fireplace'
 
 Bundle 'briancollins/vim-jst'
-call plug#begin('~/.vim/plugged')
-Plug 'keith/swift.vim'
-
-
-Plug 'vim-erlang/vim-erlang-tags'
-call plug#end()
 
 au Filetype clojure nmap <leader>ee :Eval<CR>
 au Filetype clojure nmap <leader>ld :Require<CR>
@@ -323,7 +344,6 @@ filetype plugin indent on
 syntax on
 set autochdir
 
-set nospell
 set shortmess+=filmnrxoOtT
 set virtualedit=onemore
 set history=1000
@@ -403,6 +423,7 @@ autocmd FileType php set cc=120
 autocmd FileType cpp set shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType javascript set shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType javascript.jsx set shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType asm set shiftwidth=8 tabstop=8 softtabstop=8
 
 autocmd BufRead,BufNewFile *.thrift set filetype=thrift
 autocmd BufRead,BufNewFile *.pp set filetype=puppet
@@ -523,7 +544,7 @@ endif
 "
 
 
-let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+
 
 
 set relativenumber
@@ -552,7 +573,8 @@ import sys
 if 'VIRTUAL_ENV' in os.environ:
   project_base_dir = os.environ['VIRTUAL_ENV']
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
+  #execfile(activate_this, dict(__file__=activate_this))
+  exec(open(activate_this).read(), {'__file__': activate_this})
 EOF
 
 
@@ -562,3 +584,14 @@ EOF
 set colorcolumn=121
 
 au FileType proto setlocal autoindent noexpandtab tabstop=4 shiftwidth=4
+au FileType yaml setlocal autoindent expandtab tabstop=2 shiftwidth=2
+au FileType tpl setlocal autoindent noexpandtab tabstop=4 shiftwidth=4
+au FileType smarty setlocal autoindent noexpandtab tabstop=4 shiftwidth=4
+
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
